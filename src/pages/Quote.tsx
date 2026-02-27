@@ -2,6 +2,7 @@ import { useState } from "react";
 import ScrollReveal from "@/components/ScrollReveal";
 import { useToast } from "@/hooks/use-toast";
 import { Calendar, Users, MapPin, DollarSign } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 const eventTypes = [
   "Wedding", "Corporate Event", "Birthday Party", "Festival",
@@ -18,12 +19,14 @@ const Quote = () => {
 
   const update = (field: string, value: string) => setForm({ ...form, [field]: value });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // In production, this would call the API route to send email via Resend
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      const { data, error } = await supabase.functions.invoke("send-quote", {
+        body: { ...form, formType: "quote" },
+      });
+      if (error) throw error;
       toast({
         title: "Quote Request Received! 🎉",
         description: "We'll review your request and get back to you within 24 hours.",
@@ -32,7 +35,16 @@ const Quote = () => {
         name: "", email: "", phone: "", eventType: "", date: "",
         guests: "", location: "", budget: "", requests: "",
       });
-    }, 2000);
+    } catch (error) {
+      console.error("Quote submission error:", error);
+      toast({
+        title: "Something went wrong",
+        description: "Please try again or contact us directly at +254 722 529 621.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const inputClass =

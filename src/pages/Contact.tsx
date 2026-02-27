@@ -2,21 +2,33 @@ import { useState } from "react";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const Contact = () => {
   const { toast } = useToast();
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // Simulate submission
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      const { data, error } = await supabase.functions.invoke("send-quote", {
+        body: { ...form, formType: "contact" },
+      });
+      if (error) throw error;
       toast({ title: "Message Sent!", description: "We'll get back to you within 24 hours." });
       setForm({ name: "", email: "", phone: "", message: "" });
-    }, 1500);
+    } catch (error) {
+      console.error("Contact form error:", error);
+      toast({
+        title: "Something went wrong",
+        description: "Please try again or call us at +254 722 529 621.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -92,14 +104,14 @@ const Contact = () => {
                   <Phone className="text-primary shrink-0 mt-1" size={22} />
                   <div>
                     <h4 className="font-semibold mb-1">Phone</h4>
-                    <p className="text-muted-foreground text-sm">+254 700 000 000</p>
+                    <p className="text-muted-foreground text-sm">+254 722 529 621</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
                   <Mail className="text-primary shrink-0 mt-1" size={22} />
                   <div>
                     <h4 className="font-semibold mb-1">Email</h4>
-                    <p className="text-muted-foreground text-sm">info@millysoutsidecatering.co.ke</p>
+                    <p className="text-muted-foreground text-sm">millyoutsidecatering@gmail.com</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">

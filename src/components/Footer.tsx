@@ -52,14 +52,14 @@ const Footer = () => {
               </div>
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
                 <Phone size={16} className="text-primary shrink-0" />
-                <a href="tel:+254700000000" className="hover:text-primary transition-colors">
-                  +254 700 000 000
+                <a href="tel:+254722529621" className="hover:text-primary transition-colors">
+                  +254 722 529 621
                 </a>
               </div>
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
                 <Mail size={16} className="text-primary shrink-0" />
-                <a href="mailto:info@millysoutsidecatering.co.ke" className="hover:text-primary transition-colors">
-                  info@millysoutsidecatering.co.ke
+                <a href="mailto:millyoutsidecatering@gmail.com" className="hover:text-primary transition-colors">
+                  millyoutsidecatering@gmail.com
                 </a>
               </div>
             </div>
@@ -86,7 +86,7 @@ const Footer = () => {
                 <Facebook size={18} />
               </a>
               <a
-                href="https://wa.me/254700000000?text=Hello%20Milly's%20Catering!"
+                href="https://wa.me/254722529621?text=Hello%20Milly's%20Catering!"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full border border-primary/30 flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-all"
